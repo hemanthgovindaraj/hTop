@@ -27,6 +27,8 @@ int RunningProcesses();
 std::string OperatingSystem();
 std::string Kernel();
 
+std::string FindData(std::string const&,int const&);
+
 // CPU
 enum CPUStates {
   kUser_ = 0,

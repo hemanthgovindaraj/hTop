@@ -28,7 +28,6 @@ vector<Process>& System::Processes()
         processes_.push_back(Process(i));
     }
     std::sort(processes_.begin(),processes_.end());
-    //std::reverse(processes_.begin(),processes_.end());
     return processes_; 
 
 }

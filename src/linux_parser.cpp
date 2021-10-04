@@ -146,7 +146,7 @@ long LinuxParser::ActiveJiffies()
   std::vector<string> util;
   
   util = LinuxParser::CpuUtilization();
-  activeJiffies = stol(util.at(0)) + stol(util.at(1)) + stol(util.at(2)) + stol(util.at(5)) + stol(util.at(6)) + stoi(util.at(7));
+  activeJiffies = stol(util.at(0)) + stol(util.at(1)) + stol(util.at(2)) + stol(util.at(5)) + stol(util.at(6)) + stol(util.at(7));
   
   return activeJiffies; 
 }
@@ -166,14 +166,13 @@ long LinuxParser::IdleJiffies()
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() 
 { 
-  std::vector<std::string> util;
-  std::string line,cpu,user,nice,system,idle,iowait,irq,softirq,steal,guest,guest_nice; 
+  std::vector<std::string> util{};
+  std::string line,cpu; 
   std::ifstream stat{kProcDirectory+kStatFilename};
 
   if(stat.is_open())
   {
     std::getline(stat,line);
-    std::replace(line.begin(), line.end(), ':', ' ');
     std::istringstream linestream(line);
     linestream>>cpu;
     while(linestream)
@@ -331,6 +330,7 @@ long LinuxParser::UpTime(int pid)
     time_up = LinuxParser::FindData(line,22);
   }
   upTime = std::stol(time_up)/sysconf(_SC_CLK_TCK);
+  upTime = LinuxParser::UpTime() - upTime;
 
   return upTime;
 }
@@ -343,5 +343,12 @@ std::string LinuxParser::FindData(std::string const& line, int const& index)
   for(int i=0;i<=(index-1);++i)
   {linestream >> data;}
   
-  return data;
+  if(!data.empty())
+  {
+    return data;
+  }
+  else
+  {
+    return "0";
+  }
 }

@@ -13,7 +13,11 @@ using std::vector;
 
 Process::Process(int pid):pid_(pid)
 {
-    Process::CpuUtilization();
+    CpuUtilization();
+    Command();
+    Ram();
+    User();
+    UpTime();
 }
 
 // TODO: Return this process's ID
@@ -22,7 +26,7 @@ int Process::Pid() { return pid_; }
 // TODO: Return this process's CPU utilization
 float Process::CpuUtilization() 
 {
-    float seconds = LinuxParser::UpTime() - LinuxParser::UpTime(pid_);
+    float seconds = LinuxParser::UpTime(pid_);
     util_ = ((LinuxParser::ActiveJiffies(pid_) / sysconf(_SC_CLK_TCK)) / seconds);
     
     return util_;

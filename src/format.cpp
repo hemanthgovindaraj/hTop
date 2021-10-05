@@ -1,4 +1,6 @@
 #include <string>
+#include <iomanip>
+#include <sstream>
 
 #include "format.h"
 
@@ -10,5 +12,7 @@ using std::string;
 // REMOVE: [[maybe_unused]] once you define the function
 string Format::ElapsedTime(long seconds) 
 { 
-    return std::to_string(int(seconds/3600)) + ":" + std::to_string(int((seconds/60)%60)) + ":" + std::to_string(int(seconds%60));
+    std::ostringstream timestream;
+    timestream << std::right << std::setfill('0') << std::setw(2) << std::to_string(int(seconds/3600)) << ":" << std::right << std::setfill('0') <<  std::setw(2) << std::to_string(int((seconds/60)%60)) << ":" << std::right << std::setfill('0') << std::setw(2) << std::to_string(int(seconds%60));
+    return timestream.str();
 }
